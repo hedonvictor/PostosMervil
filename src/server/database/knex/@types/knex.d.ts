@@ -1,8 +1,9 @@
-import { IPosto } from "../../models";
+import { IPosto, IUsuario } from "../../models";
 
 
 declare module 'knex/types/tables' {
     interface Tables {
-        posto: IPosto
+        posto: IPosto;
+        usuario: IUsuario;
     }
 };
