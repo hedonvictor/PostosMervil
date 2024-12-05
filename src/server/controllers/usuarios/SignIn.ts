@@ -7,10 +7,8 @@ import jwt from 'jsonwebtoken';
 import { validation } from '../../shared/middleware';
 import { IUsuario } from '../../database/models';
 import { UserProvider } from '../../database/providers';
-import { PasswordCrypto } from '../../shared/services';
+import { JWTService, PasswordCrypto } from '../../shared/services';
 
-
-const JWT_SECRET = 'secretKey';
 
 interface IBodyProps extends Omit<IUsuario, 'id' | 'nome'> {};
 
@@ -40,13 +38,20 @@ export const signIn = async (req: Request<{}, {}, IBodyProps>, res: Response) =>
     const passwordMatch = await PasswordCrypto.verifyPassword(password, user.password)
 
     if(!passwordMatch) {
-        res.status(StatusCodes.NOT_FOUND).json({
+        res.status(StatusCodes.UNAUTHORIZED).json({
             message: 'Credenciais inválidas'
         })
         return;
     };
 
-    const token = jwt.sign({id: user.id, username: user.username}, JWT_SECRET, {expiresIn: '1h'});
+    const token = JWTService.sign({uid: user.id});
 
-    res.status(StatusCodes.OK).json({message: 'Logado com sucesso', token});
+    if(token === 'JWT_SECRET_NOT_FOUND') {
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+            message: 'Erro ao gerar o token de acesso'
+        })
+        return;
+    }
+
+    res.status(StatusCodes.OK).json({token});
 };

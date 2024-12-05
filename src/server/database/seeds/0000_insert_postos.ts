@@ -204,4 +204,12 @@ const postosInitial = [
         contato: 'paulistanovoeste@hotmail.com',
         status: true 
     },
+    {
+        "nome" : "Analipe",
+        "rede" : "Pelanda",
+        "UF" : "PR",
+        "endereco" : "Curitiba - Av. Juscelino K. de Olivieira",
+        "contato" : "postoanalipe@postospelanda.com.br",
+        "status" : true
+    },
 ];

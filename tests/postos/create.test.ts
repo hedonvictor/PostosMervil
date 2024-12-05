@@ -3,9 +3,25 @@ import { testServer } from "../jest.setup"
 
 
 describe('Postos - Create', () => {
+
+    let accesToken = '';
+
+    beforeAll(async () => {
+        const username = 'deivinOretorno';
+        await testServer.post('/cadastrar').send({
+            nome: 'deivasso',
+            username,
+            password: '1234567'
+        })
+        const signInRes = await testServer.post('/entrar').send({username, password: '1234567'});
+
+        accesToken = signInRes.body.token;
+    })
+
     it('cria registro', async () => {
         const res1 = await testServer
             .post('/postos')
+            .set({authorization: `Bearer ${accesToken}`})
             .send({
             nome: 'postogalinha',
             rede: 'Shell',
@@ -20,6 +36,7 @@ describe('Postos - Create', () => {
     it('tentar criar registro com nome < 3', async () => {
         const res1 = await testServer
             .post('/postos')
+            .set({Authorization: `Bearer ${accesToken}`})
             .send({
             nome: 'po',
             rede: 'Shell',

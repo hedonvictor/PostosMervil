@@ -24,7 +24,7 @@ describe('Usuario - SignIn', () => {
             });
 
         expect(testaLogin.statusCode).toEqual(StatusCodes.OK);
-        // expect(testaLogin.body).toHaveProperty('accessToken');
+        expect(testaLogin.body).toHaveProperty('token');
     });
 
     it('Senha Errada', async () => {
