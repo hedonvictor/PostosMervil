@@ -9,6 +9,7 @@ export const getAll = async (page: number, limit: number, filter: string, id = 0
             .select('*')
             .where('id', '=', Number(id))
             .orWhere('nome', 'like', `%${filter}%`)
+            .orWhere('UF', 'like', `%${filter}%`)
             .orderBy('UF') 
             .offset((page -1) * limit)
             .limit(limit);

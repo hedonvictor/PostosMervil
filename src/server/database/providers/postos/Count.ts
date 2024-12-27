@@ -10,6 +10,7 @@ export const count = async (filter = ''): Promise<number | Error> => {
     try {
         const [{ count }] = await Knex(ETableNames.posto)
             .where('nome', 'like', `%${filter}%`)
+            .orWhere('UF', 'like', `%${filter}%`)
             .count<[{count: number}]>('* as count');
 
         if(Number.isInteger(Number(count))) return Number(count);
