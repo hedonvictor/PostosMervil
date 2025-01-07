@@ -4,7 +4,7 @@ import cors from 'cors'
 
 import './shared/services/translationsYup'
 import {router} from './routes'
-3
+
 const server = express();
 
 server.use(express.json());
